@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Department Form</title>
+    <Link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<h2>Department Form</h2>
+<form th:action="@{/departments/save}" th:object="${department}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{departmentName}" required/>
+    </div>
+    <div>
+        <button type="submit" >Save</button>
+    </div>
+
+<a class="button "href="/departments">Back to department list</a>
+</body>
+</html>
