@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Department List</title>
+    <Link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<h1>Department List</h1>
+<div th:if="${message}" class="alert alert-success">
+<p th:text="${message}"></p>
+</div>
+
+<div th:if="${errorMessage}" class="alert alert-danger">
+    <p th:text="${errorMessage}"></p>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="department : ${departments}">
+        <td th:text="${department.id}"></td>
+        <td th:text="${department.departmentName}"></td>
+        <td>
+            <a th:href="@{'/departments/edit/' + ${department.id}}">Edit</a>
+            |
+            <a th:href="@{'/departments/delete/' + ${department.id}}">Delete</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+<a class="button" href="/departments/add">Add New Department</a>
+</body>
+</html>
