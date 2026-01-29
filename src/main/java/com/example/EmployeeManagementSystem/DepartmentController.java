@@ -1,55 +1,49 @@
 package com.example.EmployeeManagementSystem;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
-@Controller
-@RequestMapping("/departments")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/departments")
+@CrossOrigin(origins = "https://localhost:5173")
 public class DepartmentController {
+
     @Autowired
     private DepartmentService departmentService;
-    @Autowired
-    private EmployeeService employeeService;
 
     @GetMapping
-    public String getAllDepartments(Model model){
-        List<Department> departments=departmentService.getAllDepartments();
-        model.addAttribute("departments",departments);
-        return "department-list";
+    public List<Department> getAllDepartments() {
+        return departmentService.getAllDepartments();
     }
 
-    @GetMapping("/add")
-        public String showAddDepartmentForm(Model model){
-        model.addAttribute("department", new Department());
-        return "department-form";
-        }
-    @GetMapping("/edit/{id}")
-    public String showEditDepartmentForm(@PathVariable Long id, Model model){
-        Optional<Department> department=departmentService.getDepartmentById(id);
-        if(department.isPresent()){
-            model.addAttribute("department",department.get());
-            return "department-form";
-        }else{
-           return "redirect:/departments";
-        }
+    @GetMapping("/{id}")
+    public Department getDepartmentById(@PathVariable Long id) throws Throwable {
+        return (Department) departmentService.getDepartmentById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found"));
     }
-    @PostMapping("/save")
-    public String saveDepartment(@ModelAttribute Department department){
-        departmentService.saveDepartment(department);
-        return "redirect:/departments";
 
+    @PostMapping
+    public void addDepartment(@RequestBody Department department) {
+         departmentService.saveDepartment(department);
     }
-    @GetMapping("/delete/{id}")
-            public String deleteDepartment(Long id){
+
+    @PutMapping("/{id}")
+    public Department updateDepartment(@PathVariable Long id, @RequestBody Department department) {
+        return departmentService.updateDepartment(id, department);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDepartment(@PathVariable Long id) {
         departmentService.deleteDepartment(id);
-        return "redirect:/departments/";
     }
-
 }
-
-
