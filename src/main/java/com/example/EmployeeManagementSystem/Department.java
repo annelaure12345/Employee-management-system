@@ -1,5 +1,6 @@
 package com.example.EmployeeManagementSystem;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,7 +13,8 @@ public class Department {
     private long id;
     private String departmentName;
 
-    @OneToMany(mappedBy="department")
+    @OneToMany(mappedBy="department", cascade=CascadeType.ALL)
+    @JsonBackReference
         private List<Employee> employees;
 
     public long getId() {
