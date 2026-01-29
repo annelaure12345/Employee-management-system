@@ -1,5 +1,6 @@
 package com.example.EmployeeManagementSystem;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,12 +17,12 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name="department_id")
-    public Department department;
+    @JsonBackReference
+    private Department department;
 
-    public Long getId() {
+    public Long getId(){
         return id;
     }
-
     public String getFirstname() {
         return firstname;
     }
@@ -34,12 +35,12 @@ public class Employee {
         return email;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public Double getSalary() {
         return salary;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public Department getDepartment() {
@@ -49,7 +50,6 @@ public class Employee {
     public void setId(Long id) {
         this.id = id;
     }
-
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
@@ -62,15 +62,16 @@ public class Employee {
         this.email = email;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setDepartment(Department department) {
         this.department = department;
     }
 }
+
